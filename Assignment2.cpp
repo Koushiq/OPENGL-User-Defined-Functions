@@ -9,7 +9,7 @@
 
 using namespace std;
 
-
+void init();
 void display();
 
 void idle();
@@ -45,6 +45,11 @@ GLfloat cloudPosition=0.0f;
 GLfloat cloudSpeed=0.02f;
 
 
+
+void init()
+{
+    gluOrtho2D(-2,2,-2,2);
+}
 void handleMouse(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON)
 	{
@@ -77,7 +82,7 @@ glutPostRedisplay();
 
 void drawClouds()
 {
-    glLoadIdentity();
+    //
 glPushMatrix();
 glTranslatef(cloudPosition,0.0, 0.0f);
     glColor3ub(255,255,255);
@@ -137,7 +142,7 @@ void update(int value)
 
 void drawRefelction()
 {
-     glLoadIdentity();
+     //
 glPushMatrix();
 glTranslatef(position,0.0, 0.0f);
     glColor3ub(252,40,72);
@@ -151,7 +156,7 @@ void drawShip()
 {
 
 
- glLoadIdentity();
+ //
 glPushMatrix();
 glTranslatef(position,0.0, 0.0f);
 
@@ -319,7 +324,7 @@ void drawGrid()
 	glBegin(GL_LINES);
 	for(double i=1.0;i>=-1.0;i-=0.2)
     {
-        glVertex2f(1.0,(i));glLoadIdentity();
+        glVertex2f(1.0,(i));//
 glPushMatrix();
 glTranslatef(position,0.0, 0.0f);
         glVertex2f(-1.0,(i));
@@ -424,6 +429,8 @@ int main(int argc,char **argv)
     glutCreateWindow("Test");
 
     glutDisplayFunc(display);
+
+    init();
 
     glutIdleFunc(idle);
     glutMouseFunc(handleMouse);
