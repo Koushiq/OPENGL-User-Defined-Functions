@@ -47,6 +47,10 @@ void parkroad();
 void parkGrass();
 void dayParkView();
 void nightParkView();
+void update9(int value);
+void update11(int value);
+void update10(int value);
+
 bool day=true;
 bool isCarRight=false;
 bool secondScene=false;
@@ -58,6 +62,12 @@ GLfloat moonPosition=0.2f;
 GLfloat moonSpeed=0.0044f;
 GLfloat carPosition = 1.0f;
 GLfloat carSpeed = 0.0055f;
+GLfloat snowPosition = 0.0f;
+GLfloat snowSpeed = 0.009f;
+GLfloat cloudPosition=0.0f;
+GLfloat cloudSpeed=0.008f;
+GLfloat cloud2Position=0.2f;
+GLfloat cloud2Speed=0.008f;
 
 void parkSky()
 {
@@ -1390,9 +1400,505 @@ void nightParkView()
 }
 
 
+void mountainRoad()
+{
+  glColor3f(0.7,0.7,0.7);
+  drawQuad(-1,-0.3, 1,-0.3, 1,0.1, -1, 0.1);//road
+  glColor3f(0.9,0.9,0.8);
+  drawQuad(-1,-0.3, -1,-0.4, 1,-0.4, 1,-0.3);//roadside
+  glColor3f(0.9,0.9,0.8);
+  drawQuad(-1,0.1, -1,0.2, 1,0.2, 1,0.1);//roadside
+  glColor3f(1,1,1);
+  drawQuad(-0.95,-0.08 ,-0.95,-0.12, -0.65,-0.12, -0.65,-0.08);//white1
+  float x=0.4;
+  drawQuad(-0.95+x,-0.08 ,-0.95+x,-0.12, -0.65+x,-0.12, -0.65+x,-0.08);
+  x+=0.4;
+  drawQuad(-0.95+x,-0.08 ,-0.95+x,-0.12, -0.65+x,-0.12, -0.65+x,-0.08);
+  x+=0.4;
+  drawQuad(-0.95+x,-0.08 ,-0.95+x,-0.12, -0.65+x,-0.12, -0.65+x,-0.08);
+  x+=0.4;
+  drawQuad(-0.95+x,-0.08 ,-0.95+x,-0.12, -0.65+x,-0.12, -0.65+x,-0.08);//white5
+}
+void mountainSky()
+{
+    glColor3ub(142, 198, 212);
+    drawQuad(-1,1, -1,0.1, 1,0.1, 1,1);
+}
+void mountainCloud()
+{
+    glPushMatrix();
+    glTranslatef(cloudPosition,0.0, 0.0f);
+   //cloud 1
+    glColor3ub(242, 242, 242);
+    drawCircle(-0.8,0.8, 0.1);
+    glColor3ub(255,255,255);
+    drawCircle(-0.7,0.85,0.1);
+    glColor3ub(242, 242, 242);
+    drawCircle(-0.7,0.75,0.1);
+    drawCircle(-0.6,0.8,0.1);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(cloud2Position,0.0,0.0f);
+    glTranslatef(0.8,0,0);
+    glColor3ub(242, 242, 242);
+    drawCircle(-0.8,0.8, 0.1);
+    glColor3ub(255,255,255);
+    drawCircle(-0.7,0.85,0.1);
+    glColor3ub(242, 242, 242);
+    drawCircle(-0.7,0.75,0.1);
+    drawCircle(-0.6,0.8,0.1);
+    glPopMatrix();
+
+}
+void update9(int value)
+{
+    if(cloudPosition<-1.5)
+    {
+        cloudPosition=2.0f;
+    }
+    if(cloudPosition>2.0)
+       {
+           cloudPosition=-1.5;
+       }
+      cloudPosition -= cloudSpeed;
+      glutPostRedisplay();
+      glutTimerFunc(25, update9, 0);
+}
+void update10(int value)
+{
+    if(cloud2Position<-1.5)
+    {
+        cloud2Position=2.0f;
+    }
+    if(cloud2Position>2.0)
+       {
+           cloud2Position=-1.5;
+       }
+      cloud2Position += cloud2Speed;
+      glutPostRedisplay();
+      glutTimerFunc(25, update10, 0);
+}
+void mountain()
+{
+
+    glColor3ub(255,255,255);
+    drawTriangle(-0.87,0.6, -1,0.2, -0.5,0.2);
+    drawTriangle(-0.47,0.75, -0.75,0.2, 0.1,0.2);
+    drawTriangle(-0.2,0.87, -0.68,0.2, 0.3,0.2);
+    drawTriangle(0,0.9, -0.5,0.2, 0.4,0.2);
+    drawTriangle(0.4,0.76, 0.1,0.2, 0.7,0.2);
+    drawTriangle(0.6,0.82, 0.2,0.2, 1,0.2);
+
+
+    glColor3ub(183, 194, 201);
+    drawTriangle(0,0.85, -0.5,0.2, 0.4,0.2);//3
+
+
+    //glColor3ub(200, 211, 219);
+    drawTriangle(-0.2,0.82, -0.68,0.2, 0.3,0.2);//4
+
+
+    glColor3ub(200, 211, 219);
+    drawTriangle(-0.87,0.5, -1,0.2, -0.5,0.2);//1
+
+
+    //glColor3ub(183, 194, 201);
+    drawTriangle(-0.47,0.65, -0.75,0.2, 0,0.2);//2
+
+
+    glColor3ub(200, 211, 219);
+    drawTriangle(0.4,0.70, 0.1,0.2, 0.7,0.2);//5
+
+    //glColor3ub(183, 194, 201);
+    drawTriangle(0.6,0.75, 0.2,0.2, 1,0.2);//6
+
+    //drawTriangle(0.57,0.6, 1,0.2, 0.4,0.2);
+}
+void update11(int value)
+{
+
+       if(snowPosition < -1.5)
+       {
+         snowPosition = 2.0f;
+       }
+
+       if(snowPosition>2.0)
+       {
+          snowPosition=-1.5;
+       }
+       snowPosition -= snowSpeed;
+       glutPostRedisplay();
+       glutTimerFunc(25, update11, 0);
+}
+void mountainRail()
+{
+
+    glColor3ub(163, 194, 194);
+    drawQuad(-1,-0.4, -1,-0.75, 1,-0.75, 1,-0.4);
 
 
 
+    if(day==false){
+     glEnable(GL_LIGHTING);//Enable Light Effect
+  GLfloat global_ambient4[] = {153/100, 0, 0, 0.1};//ambient RGBA intensity of light
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient4);
+    glColor3ub(153,0,0);
+    drawQuad(-1,-0.4, -1,-0.45, 1,-0.45, 1,-0.4);
+    drawQuad(-1,-0.70, -1,-0.75, 1,-0.75, 1,-0.70);
+    drawQuad(-0.8,-0.4, -0.8,-0.75, -0.75,-0.75, -0.75,-0.4);//rail line
+    drawQuad(-0.6,-0.4, -0.6,-0.75, -0.55,-0.75, -0.55,-0.4);
+    drawQuad(-0.4,-0.4, -0.4,-0.75, -0.35,-0.75, -0.35,-0.4);
+    drawQuad(-0.2,-0.4, -0.2,-0.75, -0.15,-0.75, -0.15,-0.4);
+    drawQuad(0,-0.4, 0,-0.75, 0.05,-0.75, 0.05,-0.4);
+    drawQuad(0.2,-0.4, 0.2,-0.75, 0.25,-0.75, 0.25,-0.4);
+    drawQuad(0.4,-0.4, 0.4,-0.75, 0.45,-0.75, 0.45,-0.4);
+    drawQuad(0.6,-0.4, 0.6,-0.75, 0.65,-0.75, 0.65,-0.4);
+    drawQuad(0.8,-0.4, 0.8,-0.75, 0.85,-0.75, 0.85,-0.4);
+  glDisable(GL_LIGHTING);
+
+
+
+    }
+
+
+
+
+    else{
+    glColor3ub(153,0,0);
+    drawQuad(-1,-0.4, -1,-0.45, 1,-0.45, 1,-0.4);
+    drawQuad(-1,-0.70, -1,-0.75, 1,-0.75, 1,-0.70);
+    drawQuad(-0.8,-0.4, -0.8,-0.75, -0.75,-0.75, -0.75,-0.4);//rail line
+    drawQuad(-0.6,-0.4, -0.6,-0.75, -0.55,-0.75, -0.55,-0.4);
+    drawQuad(-0.4,-0.4, -0.4,-0.75, -0.35,-0.75, -0.35,-0.4);
+    drawQuad(-0.2,-0.4, -0.2,-0.75, -0.15,-0.75, -0.15,-0.4);
+    drawQuad(0,-0.4, 0,-0.75, 0.05,-0.75, 0.05,-0.4);
+    drawQuad(0.2,-0.4, 0.2,-0.75, 0.25,-0.75, 0.25,-0.4);
+    drawQuad(0.4,-0.4, 0.4,-0.75, 0.45,-0.75, 0.45,-0.4);
+    drawQuad(0.6,-0.4, 0.6,-0.75, 0.65,-0.75, 0.65,-0.4);
+    drawQuad(0.8,-0.4, 0.8,-0.75, 0.85,-0.75, 0.85,-0.4);
+    }
+
+
+    glPushMatrix();
+    glTranslatef(snowPosition,0.0, 0.0f);
+    //rail
+    if(day==false){
+     glEnable(GL_LIGHTING);//Enable Light Effect
+  GLfloat global_ambient4[] = {255/100,153/100,51/100, 0.1};//ambient RGBA intensity of light
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient4);
+    glColor3ub(255,153,51 );
+    drawQuad(-0.9,-0.3, -0.9,-0.65, -0.5,-0.65, -0.5,-0.3);
+    glDisable(GL_LIGHTING);
+    }
+    else {
+        glColor3ub(255,153,51);
+    drawQuad(-0.9,-0.3, -0.9,-0.65, -0.5,-0.65, -0.5,-0.3);
+    }
+    glColor3ub(0,0,0);
+    drawCircle(-0.8,-0.64,0.07);
+    drawCircle(-0.6,-0.64,0.07);
+
+    drawQuad(-0.5,-0.47, -0.5,-0.53, -0.3,-0.53, -0.3,-0.47);
+
+     if(day==false){
+            glEnable(GL_LIGHTING);
+     GLfloat global_ambient5[]={255/100,153/100,51/100,0.1};
+     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient5);
+    glColor3ub(255,153,51);
+    drawQuad(-0.3,-0.3, -0.3,-0.65, 0.1,-0.65, 0.1,-0.3);
+    glDisable(GL_LIGHTING);
+     }
+     else
+     {
+         glColor3ub(255,153,51);
+    drawQuad(-0.3,-0.3, -0.3,-0.65, 0.1,-0.65, 0.1,-0.3);
+     }
+    glColor3ub(0,0,0);
+    drawCircle(-0.2,-0.64,0.07);
+    drawCircle(0,-0.64,0.07);
+    glPopMatrix();
+}
+void mountainJungle()
+{
+    glColor3ub(17, 168, 87);
+    drawQuad(-1,-0.75, -1,-1, 1,-1, 1,-0.75);
+    //tree1
+    glPushMatrix();
+    glScalef(0.6,0.6,0);
+    glTranslatef(-0.7,-0.6,0);
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+    glColor3ub(42, 122, 59); //leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+    glColor3ub(10, 105, 54);
+    drawTriangle(-0.85,-0.6, -0.7,-0.9, -0.7,-0.8);
+
+    glPopMatrix();
+
+
+    //tree3
+    glPushMatrix();
+    glScalef(0.5,0.5,0);
+    glTranslatef(0.2,-0.8,0);
+
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+    glColor3ub(0, 153, 0); //leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+    glColor3ub(10, 105, 54);
+    drawTriangle(-0.85,-0.6, -0.7,-0.9, -0.7,-0.8);
+
+    glPopMatrix();
+
+
+    //tree2
+    glPushMatrix();
+    glScalef(0.65,0.6,0);
+    glTranslatef(0,-0.65,0);
+
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+    glColor3ub(42,122,59);//leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+    glPopMatrix();
+
+
+      //tree5(middle)
+    glPushMatrix();
+    glScalef(0.6,0.65,0);
+    glTranslatef(1.3,-0.5,0);
+
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+    glColor3ub(0, 153, 0); //leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+    glColor3ub(10, 105, 54);
+    drawTriangle(-0.85,-0.6, -0.7,-0.9, -0.7,-0.8);
+
+    glPopMatrix();
+
+    //tree4
+    glPushMatrix();
+    glScalef(0.7,0.7,0);
+    glTranslatef(0.8,-0.4,0);
+
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+
+    glColor3ub(42, 122, 59); //leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+
+    glColor3ub(10, 105, 54);
+    drawTriangle(-0.85,-0.6, -0.7,-0.9, -0.7,-0.8);
+
+    glPopMatrix();
+
+
+    //tree6(middle 2)
+    glPushMatrix();
+    glScalef(0.7,0.7,0);
+    glTranslatef(1.5,-0.4,0);
+
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+    glColor3ub(42, 122, 59); //leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+    glColor3ub(10, 105, 54);
+    drawTriangle(-0.85,-0.6, -0.7,-0.9, -0.7,-0.8);
+
+    glPopMatrix();
+
+    //tree7
+    glPushMatrix();
+    glScalef(0.6,0.6,0);
+    glTranslatef(2,-0.6,0);
+
+    glColor3ub(97, 29, 30);
+    drawQuad(-0.7,-0.5, -0.7,-0.9, -0.65,-0.9, -0.65,-0.5);
+    drawQuad(-0.8,-0.35, -0.7,-0.5, -0.65,-0.5, -0.75,-0.3);
+    drawQuad(-0.60,-0.3, -0.68,-0.45, -0.65,-0.5, -0.58,-0.35);
+
+    glColor3ub(42, 122, 59);//leaf
+
+    drawTriangle(-0.7,0, -0.95,-0.45, -0.4,-0.45);
+    drawTriangle(-0.7,0.1, -0.95,-0.35, -0.4,-0.35);
+    drawTriangle(-0.7,0.15, -0.95,-0.25, -0.4,-0.25);
+
+    glColor3ub(10, 105, 54);
+    drawTriangle(-0.85,-0.6, -0.7,-0.9, -0.7,-0.8);
+
+    glPopMatrix();
+
+}
+void mountainCar()
+{
+
+}
+void snow()
+{
+    glPushMatrix();
+    glTranslatef(-snowPosition,snowPosition, 0.0f);
+    glColor3ub(255,255,255);
+    drawCircle(0,0,0.025);
+    drawCircle(-0.6,0.7,0.025);
+    drawCircle(-0,0.9,0.025);
+    drawCircle(-0.86,0.7,0.025);
+    drawCircle(-0.65,0.87,0.025);
+    drawCircle(-0.57,0.34,0.025);
+    drawCircle(0,0,0.025);
+    drawCircle(0.54,0.52,0.025);
+    drawCircle(0.67,0.67,0.025);
+    drawCircle(0.82,0.35,0.025);
+    drawCircle(0.38,0.2,0.025);
+    drawCircle(0.9,0.6,0.025);
+    drawCircle(0.2,0.5,0.025);
+    drawCircle(-0.32,0.5,0.025);
+    drawCircle(-0.65,0.25,0.025);
+    drawCircle(-0.7,0.3,0.025);
+
+    glTranslatef(snowPosition,snowPosition, 0.0f);
+    glColor3ub(255,255,255);
+    glTranslatef(-0.2,1,0);
+    drawCircle(0,0,0.025);
+    drawCircle(-0.6,0.7,0.025);
+    drawCircle(-0,0.9,0.025);
+    drawCircle(-0.86,0.7,0.025);
+    drawCircle(-0.65,0.87,0.025);
+    drawCircle(-0.57,0.34,0.025);
+    drawCircle(0,0,0.025);
+    drawCircle(0.54,0.52,0.025);
+    drawCircle(0.67,0.67,0.025);
+    drawCircle(0.82,0.35,0.025);
+    drawCircle(0.38,0.2,0.025);
+    drawCircle(0.9,0.6,0.025);
+    drawCircle(0.2,0.5,0.025);
+    drawCircle(-0.32,0.5,0.025);
+    drawCircle(-0.65,0.25,0.025);
+    drawCircle(-0.7,0.3,0.025);
+
+
+    glTranslatef(0.0f,snowPosition, 0.0f);
+    glColor3ub(255,255,255);
+    glTranslatef(0.2,0,0);
+    drawCircle(0,0,0.025);
+    drawCircle(-0.6,0.7,0.025);
+    drawCircle(-0,0.9,0.025);
+    drawCircle(-0.86,0.7,0.025);
+    drawCircle(-0.65,0.87,0.025);
+    drawCircle(-0.57,0.34,0.025);
+    drawCircle(0,0,0.025);
+    drawCircle(0.54,0.52,0.025);
+    drawCircle(0.67,0.67,0.025);
+    drawCircle(0.82,0.35,0.025);
+    drawCircle(0.38,0.2,0.025);
+    drawCircle(0.9,0.6,0.025);
+    drawCircle(0.2,0.5,0.025);
+    drawCircle(-0.32,0.5,0.025);
+    drawCircle(-0.65,0.25,0.025);
+    drawCircle(-0.7,0.3,0.025);
+    glPopMatrix();
+}
+void mountainScenery()
+{
+	mountainSky();
+	mountainCloud();
+	mountainRoad();
+    mountain();
+    mountainRail();
+    mountainJungle();
+    if(carPosition<-0.8)
+    {
+        carPosition=-0.8;
+    }
+
+}
+
+void nightMountainScenery()
+{
+
+  glLoadIdentity();
+  glEnable(GL_LIGHTING);//Enable Light Effect
+  GLfloat global_ambient[] = {0.1, 0.1, 0.7, 0.1};//ambient RGBA intensity of light
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
+  mountainSky();
+  glDisable(GL_LIGHTING);
+
+
+glEnable(GL_LIGHTING);//Enable Light Effect
+  GLfloat global_ambient1[] = {0.8, 0.8, 0.8, 0.1};//ambient RGBA intensity of light
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient1);
+ mountainCloud();
+  glDisable(GL_LIGHTING);
+mountainRoad();
+glEnable(GL_LIGHTING);//Enable Light Effect
+  GLfloat global_ambient2[] = {1.8, 1.8, 1.8, 0.1};//ambient RGBA intensity of light
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient2);
+mountain();
+  glDisable(GL_LIGHTING);
+
+
+mountainRail();
+
+
+
+    glEnable(GL_LIGHTING);//Enable Light Effect
+  GLfloat global_ambient3[] = {0.0,0.5,0.0, 0.1};//ambient RGBA intensity of light
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient3);
+mountainJungle();
+  glDisable(GL_LIGHTING);
+
+    snow();
+    if(carPosition<-0.8)
+    {
+        carPosition=-0.8;
+    }
+
+
+
+}
 void display()
 {
     glClearColor(1,1,1,1);
@@ -1406,19 +1912,21 @@ void display()
     {
         nightCityScape();
     }
-    if(carPosition<-1.1)
+    if(firstScene==true && carPosition<-1.1)
     {
         //load tarins code
         carPosition=1.0;
         secondScene=true;
         firstScene=false;
     }
-    else if(carPosition>1.1)
+    else if(secondScene==true && carPosition>1.1)
     {
         carPosition=-1.0;
         firstScene=true;
         secondScene=false;
     }
+
+
     if(day == true && secondScene==true)
     {
         dayParkView();
@@ -1427,6 +1935,8 @@ void display()
     {
         nightParkView();
     }
+
+
     if(secondScene==true && carPosition<-1.1)
     {
         carPosition=1.0;
@@ -1439,18 +1949,37 @@ void display()
         secondScene=true;
         thirdScene=false;
     }
+
+
+    if(day == true && thirdScene==true)
+    {
+        mountainScenery();
+    }
+    else if(day==false && thirdScene==true)
+    {
+        nightMountainScenery();
+    }
     if(isCarRight==false)
     {
         carLeft();
+        if(thirdScene==true)
+        {
+            snow();
+        }
     }
 	else
     {
         carRight();
+        if(thirdScene==true)
+        {
+            snow();
+        }
 	}
     glutSwapBuffers();
     glFlush();
 
 }
+
 int main(int argc,char **argv)
 {
     glutInit(&argc, argv);
@@ -1459,17 +1988,18 @@ int main(int argc,char **argv)
     glutInitWindowPosition(1920/2 - 310,1080/2 - 310);
     glutCreateWindow("Test");
     glutDisplayFunc(display);
-     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-
     glutIdleFunc(idle);
-    //glutMouseFunc(handleMouse);
-     glutKeyboardFunc(handleKeypress);
+    glutKeyboardFunc(handleKeypress);
     glutTimerFunc(1000/60, update, 0);
     glutTimerFunc(4100,update2,0);
     glutTimerFunc(1000/60, update3, 0);
     glutTimerFunc(1000/60, update4, 0);
+    glutTimerFunc(30, update11, 0);
+    glutTimerFunc(25,update9,0);
+    glutTimerFunc(25,update10,0);
+
     glutMainLoop();
     return 0;
 
